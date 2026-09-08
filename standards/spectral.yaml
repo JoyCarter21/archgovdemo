@@ -1,0 +1,31 @@
+rules:
+  api-versioned:
+    description: "All APIs must be versioned under /v1."
+    message: "API paths must use the /v1 version prefix."
+    severity: error
+    given:
+      - "$.paths.*~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^/v1"
+
+  operation-id-required:
+    description: "Every operation must define an operationId."
+    message: "Missing operationId for {{path}} {{method}}."
+    severity: error
+    given:
+      - "$.paths.*.*"
+    then:
+      field: operationId
+      function: truthy
+
+  security-required:
+    description: "Every operation must declare a security requirement."
+    message: "Missing security requirement for {{path}} {{method}}."
+    severity: error
+    given:
+      - "$.paths.*.*"
+    then:
+      field: security
+      function: truthy

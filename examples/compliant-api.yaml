@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Compliant API
+  version: 1.0.0
+  description: Example that follows governance controls.
+servers:
+  - url: https://api.example.com
+paths:
+  /v1/users:
+    get:
+      summary: List users
+      operationId: listUsers
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Users returned
+  /v1/users/{userId}:
+    get:
+      summary: Get a single user
+      operationId: getUserById
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User returned
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

@@ -1,0 +1,27 @@
+name: API Governance Validation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Spectral
+        run: npm install --save-dev @stoplight/spectral-cli
+
+      - name: Validate compliant example
+        run: npx @stoplight/spectral-cli lint examples/compliant-api.yaml -r standards/spectral.yaml
+
+      - name: Validate noncompliant example
+        run: npx @stoplight/spectral-cli lint examples/noncompliant-api.yaml -r standards/spectral.yaml

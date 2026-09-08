@@ -1,0 +1,24 @@
+openapi: 3.0.3
+info:
+  title: Noncompliant API
+  version: 1.0.0
+  description: Example that violates governance controls.
+servers:
+  - url: https://api.example.com
+paths:
+  /users:
+    get:
+      summary: List users
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Users returned
+  /v1/admin:
+    post:
+      summary: Create admin record
+      operationId: createAdminRecord
+      responses:
+        '201':
+          description: Created
+components: {}
