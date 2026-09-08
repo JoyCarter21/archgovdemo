@@ -1,24 +1,35 @@
 # API Governance Demo
 
-This demo shows how architecture standards can be expressed as executable governance controls.
+This repo is a simple proof that architecture standards can be converted into executable governance controls.
 
-## What this proves
+## What this demo proves
 
-- A written standard is mapped into a machine-enforceable rule set.
+- A written standard can be translated into machine-enforceable rules.
 - A compliant API passes validation.
 - A noncompliant API fails validation.
-- GitHub Actions can enforce the standard automatically for pull requests and pushes.
+- GitHub Actions can enforce the standard automatically in pull requests and pushes.
 
-## Files
+## Repository layout
 
-- `standards/API-Design-Standards.docx` — human-readable architecture standard.
+- `standards/API-Design-Standards.md` — human-readable architecture standard.
 - `standards/spectral.yaml` — executable governance rules.
-- `templates/openapi-template.yaml` — a standard API template.
+- `templates/openapi-template.md` — readable version of the required API contract shape.
+- `templates/openapi-template.yaml` — example OpenAPI baseline.
 - `examples/compliant-api.yaml` — valid example that passes.
 - `examples/noncompliant-api.yaml` — invalid example that fails.
 - `.github/workflows/api-validation.yml` — CI enforcement.
 
+## Demo flow
+
+1. A written architecture policy is captured in Markdown.
+2. That policy is translated into Spectral rules.
+3. A compliant contract is validated successfully.
+4. A noncompliant contract fails with specific governance errors.
+5. GitHub Actions runs the same checks automatically in PRs and on pushes.
+
 ## Local validation
+
+From the repo root, run:
 
 ```bash
 cd api-governance-demo
@@ -26,4 +37,17 @@ npx @stoplight/spectral-cli lint examples/compliant-api.yaml -r standards/spectr
 npx @stoplight/spectral-cli lint examples/noncompliant-api.yaml -r standards/spectral.yaml
 ```
 
-The first command should pass, and the second should fail.
+Expected result:
+
+- the compliant API passes
+- the noncompliant API fails with errors such as missing `/v1` path versioning, missing `operationId`, or missing security
+
+## Governance interpretation
+
+This is the core idea behind the demo:
+
+- the standard explains the requirement
+- the rule file converts that requirement into code
+- CI enforces the rule automatically
+
+That turns policy from a document into a control.
